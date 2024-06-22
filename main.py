@@ -70,7 +70,7 @@ Você é a vendedora estrela da iPhoneBV, a {bot_name}! Sua missão é oferecer 
 Lembre-se: você é a {bot_name}, a especialista em iPhones pronta para ajudar cada cliente a encontrar o aparelho ideal! Boa sorte! 😄🚀""")
 
 
-def send(answer, teste):
+def send(answer, sender_phone_number):
     url = f"https://graph.facebook.com/v18.0/{phone_id}/messages"
     headers = {
         "Authorization": f"Bearer {wa_token}",
@@ -78,7 +78,7 @@ def send(answer, teste):
     }
     data = {
         "messaging_product": "whatsapp",
-        "to": f"{teste}",
+        "to": f"whatsapp:{sender_phone_number}",  # Use the sender's phone number
         "type": "text",
         "text": {"body": f"{answer}"},
     }
@@ -113,12 +113,11 @@ def webhook():
     elif request.method == "POST":
         try:
             data = request.get_json()["entry"][0]["changes"][0]["value"]["messages"][0]
-            remetente = data["entry"][0]["changes"][0]["value"]["messages"][0]["from"]
-            numero_telefone = remetente.get("wa_id")  # Ou "phone_number"
+            sender_phone_number = data["from"]  # Get the phone number of the sender
             if data["type"] == "text":
                 prompt = data["text"]["body"]
                 convo.send_message(prompt)
-                send(convo.last.text, numero_telefone)
+                send(convo.last.text, sender_phone_number)
             else:
                 media_url_endpoint = (
                     f'https://graph.facebook.com/v18.0/{data[data["type"]]["id"]}/'
