@@ -119,7 +119,7 @@ def webhook():
         try:
             data = request.get_json()["entry"][0]["changes"][0]["value"]["messages"][0]
             sender_phone_number = data["from"]  # Get the phone number of the sender
-            send("Estou aqui.", sender_phone_number)
+            # send("Estou aqui.", sender_phone_number)
             if data["type"] == "text":
                 prompt = data["text"]["body"]
                 convo.send_message(prompt)
