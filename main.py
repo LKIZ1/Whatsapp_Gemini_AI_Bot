@@ -78,7 +78,7 @@ def send(answer, sender_phone_number):
     }
     data = {
         "messaging_product": "whatsapp",
-        "to": f"whatsapp: +{sender_phone_number}",  # Use the sender's phone number
+        "to": f"whatsapp:+{sender_phone_number}",  # Use the sender's phone number
         "type": "text",
         "text": {"body": f"{answer} - +{sender_phone_number}"},
     }
@@ -115,6 +115,7 @@ def webhook():
         try:
             data = request.get_json()["entry"][0]["changes"][0]["value"]["messages"][0]
             sender_phone_number = data["from"]  # Get the phone number of the sender
+            send("Estou aqui.", sender_phone_number)
             if data["type"] == "text":
                 prompt = data["text"]["body"]
                 convo.send_message(prompt)
