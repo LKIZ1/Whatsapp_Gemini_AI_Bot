@@ -109,7 +109,7 @@ def webhook():
         challenge = request.args.get("hub.challenge")
         data = request.get_json()["entry"][0]["changes"][0]["value"]["messages"][0]
         sender_phone_number = data["from"]  # Get the phone number of the sender
-        send("Estou aqui.", sender_phone_number)
+        # send("Estou aqui.", sender_phone_number)
         if mode == "subscribe" and token == "BOT":
             return challenge, 200
         else:
