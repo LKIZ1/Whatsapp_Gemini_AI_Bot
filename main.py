@@ -78,7 +78,7 @@ def send(answer, sender_phone_number):
     }
     data = {
         "messaging_product": "whatsapp",
-        "to": f"whatsapp:+{sender_phone_number}",  # Use the sender's phone number
+        "to": f"whatsapp:{sender_phone_number}",  # Use the sender's phone number
         "type": "text",
         "text": {"body": f"{answer} - +{sender_phone_number}"},
     }
@@ -106,6 +106,9 @@ def webhook():
         mode = request.args.get("hub.mode")
         token = request.args.get("hub.verify_token")
         challenge = request.args.get("hub.challenge")
+        data = request.get_json()["entry"][0]["changes"][0]["value"]["messages"][0]
+        sender_phone_number = data["from"]  # Get the phone number of the sender
+        send("Estou aqui.", sender_phone_number)
         if mode == "subscribe" and token == "BOT":
             return challenge, 200
         else:
