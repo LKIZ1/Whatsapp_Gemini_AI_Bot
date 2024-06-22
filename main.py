@@ -78,9 +78,9 @@ def send(answer, sender_phone_number):
     }
     data = {
         "messaging_product": "whatsapp",
-        "to": f"whatsapp:{sender_phone_number}",  # Use the sender's phone number
+        "to": f"whatsapp:{phone}",  # Use the sender's phone number
         "type": "text",
-        "text": {"body": f"{answer}"},
+        "text": {"body": f"{answer} - {sender_phone_number}"},
     }
 
     response = requests.post(url, headers=headers, json=data)
