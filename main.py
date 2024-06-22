@@ -78,9 +78,9 @@ def send(answer, sender_phone_number):
     }
     data = {
         "messaging_product": "whatsapp",
-        "to": f"whatsapp:{phone}",  # Use the sender's phone number
+        "to": f"whatsapp: +{sender_phone_number}",  # Use the sender's phone number
         "type": "text",
-        "text": {"body": f"{answer} - {sender_phone_number}"},
+        "text": {"body": f"{answer} - +{sender_phone_number}"},
     }
 
     response = requests.post(url, headers=headers, json=data)
@@ -110,6 +110,7 @@ def webhook():
             return challenge, 200
         else:
             return "Failed", 403
+
     elif request.method == "POST":
         try:
             data = request.get_json()["entry"][0]["changes"][0]["value"]["messages"][0]
